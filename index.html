@@ -456,6 +456,11 @@
     .plate { animation: none; }
     .progress > span { transition: none; }
   }
+
+  /* Language toggle */
+  #langToggle { position: fixed; top: 14px; right: 14px; z-index: 50; display: flex; gap: 2px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+  #langToggle button { border: 0; background: transparent; color: var(--muted); font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+  #langToggle button[aria-pressed="true"] { background: var(--line); color: var(--text); }
 </style>
 </head>
 <body>
@@ -468,170 +473,170 @@
   // ---- Data: ISO 3166-1 alpha-2 code, Danish name, region ----
   var DATA = [
     // Europa
-    {c:"dk",n:"Danmark",r:"Europa"},{c:"se",n:"Sverige",r:"Europa"},{c:"no",n:"Norge",r:"Europa"},
-    {c:"fi",n:"Finland",r:"Europa"},{c:"is",n:"Island",r:"Europa"},{c:"de",n:"Tyskland",r:"Europa"},
-    {c:"fr",n:"Frankrig",r:"Europa"},{c:"es",n:"Spanien",r:"Europa"},{c:"it",n:"Italien",r:"Europa"},
-    {c:"gb",n:"Storbritannien",r:"Europa"},{c:"ie",n:"Irland",r:"Europa"},{c:"nl",n:"Nederlandene",r:"Europa"},
-    {c:"be",n:"Belgien",r:"Europa"},{c:"ch",n:"Schweiz",r:"Europa"},{c:"at",n:"Østrig",r:"Europa"},
-    {c:"pl",n:"Polen",r:"Europa"},{c:"pt",n:"Portugal",r:"Europa"},{c:"gr",n:"Grækenland",r:"Europa"},
-    {c:"cz",n:"Tjekkiet",r:"Europa"},{c:"sk",n:"Slovakiet",r:"Europa"},{c:"hu",n:"Ungarn",r:"Europa"},
-    {c:"ro",n:"Rumænien",r:"Europa"},{c:"bg",n:"Bulgarien",r:"Europa"},{c:"hr",n:"Kroatien",r:"Europa"},
-    {c:"si",n:"Slovenien",r:"Europa"},{c:"rs",n:"Serbien",r:"Europa"},{c:"ua",n:"Ukraine",r:"Europa"},
-    {c:"ru",n:"Rusland",r:"Europa"},{c:"ee",n:"Estland",r:"Europa"},{c:"lv",n:"Letland",r:"Europa"},
-    {c:"lt",n:"Litauen",r:"Europa"},{c:"by",n:"Belarus",r:"Europa"},{c:"lu",n:"Luxembourg",r:"Europa"},
-    {c:"mt",n:"Malta",r:"Europa"},{c:"cy",n:"Cypern",r:"Europa"},{c:"al",n:"Albanien",r:"Europa"},
-    {c:"ba",n:"Bosnien-Hercegovina",r:"Europa"},{c:"mk",n:"Nordmakedonien",r:"Europa"},
-    {c:"me",n:"Montenegro",r:"Europa"},{c:"md",n:"Moldova",r:"Europa"},{c:"tr",n:"Tyrkiet",r:"Europa"},
+    {c:"dk",n:"Danmark",e:"Denmark",r:"Europa"},{c:"se",n:"Sverige",e:"Sweden",r:"Europa"},{c:"no",n:"Norge",e:"Norway",r:"Europa"},
+    {c:"fi",n:"Finland",e:"Finland",r:"Europa"},{c:"is",n:"Island",e:"Iceland",r:"Europa"},{c:"de",n:"Tyskland",e:"Germany",r:"Europa"},
+    {c:"fr",n:"Frankrig",e:"France",r:"Europa"},{c:"es",n:"Spanien",e:"Spain",r:"Europa"},{c:"it",n:"Italien",e:"Italy",r:"Europa"},
+    {c:"gb",n:"Storbritannien",e:"United Kingdom",r:"Europa"},{c:"ie",n:"Irland",e:"Ireland",r:"Europa"},{c:"nl",n:"Nederlandene",e:"Netherlands",r:"Europa"},
+    {c:"be",n:"Belgien",e:"Belgium",r:"Europa"},{c:"ch",n:"Schweiz",e:"Switzerland",r:"Europa"},{c:"at",n:"Østrig",e:"Austria",r:"Europa"},
+    {c:"pl",n:"Polen",e:"Poland",r:"Europa"},{c:"pt",n:"Portugal",e:"Portugal",r:"Europa"},{c:"gr",n:"Grækenland",e:"Greece",r:"Europa"},
+    {c:"cz",n:"Tjekkiet",e:"Czechia",r:"Europa"},{c:"sk",n:"Slovakiet",e:"Slovakia",r:"Europa"},{c:"hu",n:"Ungarn",e:"Hungary",r:"Europa"},
+    {c:"ro",n:"Rumænien",e:"Romania",r:"Europa"},{c:"bg",n:"Bulgarien",e:"Bulgaria",r:"Europa"},{c:"hr",n:"Kroatien",e:"Croatia",r:"Europa"},
+    {c:"si",n:"Slovenien",e:"Slovenia",r:"Europa"},{c:"rs",n:"Serbien",e:"Serbia",r:"Europa"},{c:"ua",n:"Ukraine",e:"Ukraine",r:"Europa"},
+    {c:"ru",n:"Rusland",e:"Russia",r:"Europa"},{c:"ee",n:"Estland",e:"Estonia",r:"Europa"},{c:"lv",n:"Letland",e:"Latvia",r:"Europa"},
+    {c:"lt",n:"Litauen",e:"Lithuania",r:"Europa"},{c:"by",n:"Belarus",e:"Belarus",r:"Europa"},{c:"lu",n:"Luxembourg",e:"Luxembourg",r:"Europa"},
+    {c:"mt",n:"Malta",e:"Malta",r:"Europa"},{c:"cy",n:"Cypern",e:"Cyprus",r:"Europa"},{c:"al",n:"Albanien",e:"Albania",r:"Europa"},
+    {c:"ba",n:"Bosnien-Hercegovina",e:"Bosnia and Herzegovina",r:"Europa"},{c:"mk",n:"Nordmakedonien",e:"North Macedonia",r:"Europa"},
+    {c:"me",n:"Montenegro",e:"Montenegro",r:"Europa"},{c:"md",n:"Moldova",e:"Moldova",r:"Europa"},{c:"tr",n:"Tyrkiet",e:"Turkey",r:"Europa"},
 
     // Asien
-    {c:"cn",n:"Kina",r:"Asien"},{c:"jp",n:"Japan",r:"Asien"},{c:"kr",n:"Sydkorea",r:"Asien"},
-    {c:"kp",n:"Nordkorea",r:"Asien"},{c:"in",n:"Indien",r:"Asien"},{c:"pk",n:"Pakistan",r:"Asien"},
-    {c:"bd",n:"Bangladesh",r:"Asien"},{c:"th",n:"Thailand",r:"Asien"},{c:"vn",n:"Vietnam",r:"Asien"},
-    {c:"id",n:"Indonesien",r:"Asien"},{c:"my",n:"Malaysia",r:"Asien"},{c:"ph",n:"Filippinerne",r:"Asien"},
-    {c:"sg",n:"Singapore",r:"Asien"},{c:"mm",n:"Myanmar",r:"Asien"},{c:"kh",n:"Cambodja",r:"Asien"},
-    {c:"la",n:"Laos",r:"Asien"},{c:"np",n:"Nepal",r:"Asien"},{c:"lk",n:"Sri Lanka",r:"Asien"},
-    {c:"mn",n:"Mongoliet",r:"Asien"},{c:"kz",n:"Kasakhstan",r:"Asien"},{c:"uz",n:"Usbekistan",r:"Asien"},
-    {c:"ir",n:"Iran",r:"Asien"},{c:"iq",n:"Irak",r:"Asien"},{c:"sa",n:"Saudi-Arabien",r:"Asien"},
-    {c:"ae",n:"Forenede Arabiske Emirater",r:"Asien"},{c:"il",n:"Israel",r:"Asien"},
-    {c:"jo",n:"Jordan",r:"Asien"},{c:"lb",n:"Libanon",r:"Asien"},{c:"sy",n:"Syrien",r:"Asien"},
-    {c:"ge",n:"Georgien",r:"Asien"},{c:"am",n:"Armenien",r:"Asien"},{c:"az",n:"Aserbajdsjan",r:"Asien"},
-    {c:"qa",n:"Qatar",r:"Asien"},{c:"kw",n:"Kuwait",r:"Asien"},{c:"om",n:"Oman",r:"Asien"},
-    {c:"ye",n:"Yemen",r:"Asien"},{c:"af",n:"Afghanistan",r:"Asien"},
+    {c:"cn",n:"Kina",e:"China",r:"Asien"},{c:"jp",n:"Japan",e:"Japan",r:"Asien"},{c:"kr",n:"Sydkorea",e:"South Korea",r:"Asien"},
+    {c:"kp",n:"Nordkorea",e:"North Korea",r:"Asien"},{c:"in",n:"Indien",e:"India",r:"Asien"},{c:"pk",n:"Pakistan",e:"Pakistan",r:"Asien"},
+    {c:"bd",n:"Bangladesh",e:"Bangladesh",r:"Asien"},{c:"th",n:"Thailand",e:"Thailand",r:"Asien"},{c:"vn",n:"Vietnam",e:"Vietnam",r:"Asien"},
+    {c:"id",n:"Indonesien",e:"Indonesia",r:"Asien"},{c:"my",n:"Malaysia",e:"Malaysia",r:"Asien"},{c:"ph",n:"Filippinerne",e:"Philippines",r:"Asien"},
+    {c:"sg",n:"Singapore",e:"Singapore",r:"Asien"},{c:"mm",n:"Myanmar",e:"Myanmar",r:"Asien"},{c:"kh",n:"Cambodja",e:"Cambodia",r:"Asien"},
+    {c:"la",n:"Laos",e:"Laos",r:"Asien"},{c:"np",n:"Nepal",e:"Nepal",r:"Asien"},{c:"lk",n:"Sri Lanka",e:"Sri Lanka",r:"Asien"},
+    {c:"mn",n:"Mongoliet",e:"Mongolia",r:"Asien"},{c:"kz",n:"Kasakhstan",e:"Kazakhstan",r:"Asien"},{c:"uz",n:"Usbekistan",e:"Uzbekistan",r:"Asien"},
+    {c:"ir",n:"Iran",e:"Iran",r:"Asien"},{c:"iq",n:"Irak",e:"Iraq",r:"Asien"},{c:"sa",n:"Saudi-Arabien",e:"Saudi Arabia",r:"Asien"},
+    {c:"ae",n:"Forenede Arabiske Emirater",e:"United Arab Emirates",r:"Asien"},{c:"il",n:"Israel",e:"Israel",r:"Asien"},
+    {c:"jo",n:"Jordan",e:"Jordan",r:"Asien"},{c:"lb",n:"Libanon",e:"Lebanon",r:"Asien"},{c:"sy",n:"Syrien",e:"Syria",r:"Asien"},
+    {c:"ge",n:"Georgien",e:"Georgia",r:"Asien"},{c:"am",n:"Armenien",e:"Armenia",r:"Asien"},{c:"az",n:"Aserbajdsjan",e:"Azerbaijan",r:"Asien"},
+    {c:"qa",n:"Qatar",e:"Qatar",r:"Asien"},{c:"kw",n:"Kuwait",e:"Kuwait",r:"Asien"},{c:"om",n:"Oman",e:"Oman",r:"Asien"},
+    {c:"ye",n:"Yemen",e:"Yemen",r:"Asien"},{c:"af",n:"Afghanistan",e:"Afghanistan",r:"Asien"},
 
     // Afrika
-    {c:"eg",n:"Egypten",r:"Afrika"},{c:"za",n:"Sydafrika",r:"Afrika"},{c:"ng",n:"Nigeria",r:"Afrika"},
-    {c:"ke",n:"Kenya",r:"Afrika"},{c:"et",n:"Etiopien",r:"Afrika"},{c:"gh",n:"Ghana",r:"Afrika"},
-    {c:"ma",n:"Marokko",r:"Afrika"},{c:"dz",n:"Algeriet",r:"Afrika"},{c:"tn",n:"Tunesien",r:"Afrika"},
-    {c:"ly",n:"Libyen",r:"Afrika"},{c:"sd",n:"Sudan",r:"Afrika"},{c:"tz",n:"Tanzania",r:"Afrika"},
-    {c:"ug",n:"Uganda",r:"Afrika"},{c:"ci",n:"Elfenbenskysten",r:"Afrika"},{c:"sn",n:"Senegal",r:"Afrika"},
-    {c:"cm",n:"Cameroun",r:"Afrika"},{c:"zw",n:"Zimbabwe",r:"Afrika"},{c:"zm",n:"Zambia",r:"Afrika"},
-    {c:"ao",n:"Angola",r:"Afrika"},{c:"mz",n:"Mozambique",r:"Afrika"},{c:"mg",n:"Madagaskar",r:"Afrika"},
-    {c:"na",n:"Namibia",r:"Afrika"},{c:"bw",n:"Botswana",r:"Afrika"},{c:"ml",n:"Mali",r:"Afrika"},
-    {c:"rw",n:"Rwanda",r:"Afrika"},
+    {c:"eg",n:"Egypten",e:"Egypt",r:"Afrika"},{c:"za",n:"Sydafrika",e:"South Africa",r:"Afrika"},{c:"ng",n:"Nigeria",e:"Nigeria",r:"Afrika"},
+    {c:"ke",n:"Kenya",e:"Kenya",r:"Afrika"},{c:"et",n:"Etiopien",e:"Ethiopia",r:"Afrika"},{c:"gh",n:"Ghana",e:"Ghana",r:"Afrika"},
+    {c:"ma",n:"Marokko",e:"Morocco",r:"Afrika"},{c:"dz",n:"Algeriet",e:"Algeria",r:"Afrika"},{c:"tn",n:"Tunesien",e:"Tunisia",r:"Afrika"},
+    {c:"ly",n:"Libyen",e:"Libya",r:"Afrika"},{c:"sd",n:"Sudan",e:"Sudan",r:"Afrika"},{c:"tz",n:"Tanzania",e:"Tanzania",r:"Afrika"},
+    {c:"ug",n:"Uganda",e:"Uganda",r:"Afrika"},{c:"ci",n:"Elfenbenskysten",e:"Ivory Coast",r:"Afrika"},{c:"sn",n:"Senegal",e:"Senegal",r:"Afrika"},
+    {c:"cm",n:"Cameroun",e:"Cameroon",r:"Afrika"},{c:"zw",n:"Zimbabwe",e:"Zimbabwe",r:"Afrika"},{c:"zm",n:"Zambia",e:"Zambia",r:"Afrika"},
+    {c:"ao",n:"Angola",e:"Angola",r:"Afrika"},{c:"mz",n:"Mozambique",e:"Mozambique",r:"Afrika"},{c:"mg",n:"Madagaskar",e:"Madagascar",r:"Afrika"},
+    {c:"na",n:"Namibia",e:"Namibia",r:"Afrika"},{c:"bw",n:"Botswana",e:"Botswana",r:"Afrika"},{c:"ml",n:"Mali",e:"Mali",r:"Afrika"},
+    {c:"rw",n:"Rwanda",e:"Rwanda",r:"Afrika"},
 
     // Amerika
-    {c:"us",n:"USA",r:"Amerika"},{c:"ca",n:"Canada",r:"Amerika"},{c:"mx",n:"Mexico",r:"Amerika"},
-    {c:"br",n:"Brasilien",r:"Amerika"},{c:"ar",n:"Argentina",r:"Amerika"},{c:"cl",n:"Chile",r:"Amerika"},
-    {c:"co",n:"Colombia",r:"Amerika"},{c:"pe",n:"Peru",r:"Amerika"},{c:"ve",n:"Venezuela",r:"Amerika"},
-    {c:"ec",n:"Ecuador",r:"Amerika"},{c:"bo",n:"Bolivia",r:"Amerika"},{c:"py",n:"Paraguay",r:"Amerika"},
-    {c:"uy",n:"Uruguay",r:"Amerika"},{c:"cu",n:"Cuba",r:"Amerika"},{c:"jm",n:"Jamaica",r:"Amerika"},
-    {c:"gt",n:"Guatemala",r:"Amerika"},{c:"cr",n:"Costa Rica",r:"Amerika"},{c:"pa",n:"Panama",r:"Amerika"},
-    {c:"do",n:"Den Dominikanske Republik",r:"Amerika"},{c:"ht",n:"Haiti",r:"Amerika"},
-    {c:"hn",n:"Honduras",r:"Amerika"},{c:"ni",n:"Nicaragua",r:"Amerika"},
+    {c:"us",n:"USA",e:"United States",r:"Amerika"},{c:"ca",n:"Canada",e:"Canada",r:"Amerika"},{c:"mx",n:"Mexico",e:"Mexico",r:"Amerika"},
+    {c:"br",n:"Brasilien",e:"Brazil",r:"Amerika"},{c:"ar",n:"Argentina",e:"Argentina",r:"Amerika"},{c:"cl",n:"Chile",e:"Chile",r:"Amerika"},
+    {c:"co",n:"Colombia",e:"Colombia",r:"Amerika"},{c:"pe",n:"Peru",e:"Peru",r:"Amerika"},{c:"ve",n:"Venezuela",e:"Venezuela",r:"Amerika"},
+    {c:"ec",n:"Ecuador",e:"Ecuador",r:"Amerika"},{c:"bo",n:"Bolivia",e:"Bolivia",r:"Amerika"},{c:"py",n:"Paraguay",e:"Paraguay",r:"Amerika"},
+    {c:"uy",n:"Uruguay",e:"Uruguay",r:"Amerika"},{c:"cu",n:"Cuba",e:"Cuba",r:"Amerika"},{c:"jm",n:"Jamaica",e:"Jamaica",r:"Amerika"},
+    {c:"gt",n:"Guatemala",e:"Guatemala",r:"Amerika"},{c:"cr",n:"Costa Rica",e:"Costa Rica",r:"Amerika"},{c:"pa",n:"Panama",e:"Panama",r:"Amerika"},
+    {c:"do",n:"Den Dominikanske Republik",e:"Dominican Republic",r:"Amerika"},{c:"ht",n:"Haiti",e:"Haiti",r:"Amerika"},
+    {c:"hn",n:"Honduras",e:"Honduras",r:"Amerika"},{c:"ni",n:"Nicaragua",e:"Nicaragua",r:"Amerika"},
 
     // Oceanien
-    {c:"au",n:"Australien",r:"Oceanien"},{c:"nz",n:"New Zealand",r:"Oceanien"},{c:"fj",n:"Fiji",r:"Oceanien"},
-    {c:"pg",n:"Papua Ny Guinea",r:"Oceanien"},{c:"ws",n:"Samoa",r:"Oceanien"},{c:"to",n:"Tonga",r:"Oceanien"}
+    {c:"au",n:"Australien",e:"Australia",r:"Oceanien"},{c:"nz",n:"New Zealand",e:"New Zealand",r:"Oceanien"},{c:"fj",n:"Fiji",e:"Fiji",r:"Oceanien"},
+    {c:"pg",n:"Papua Ny Guinea",e:"Papua New Guinea",r:"Oceanien"},{c:"ws",n:"Samoa",e:"Samoa",r:"Oceanien"},{c:"to",n:"Tonga",e:"Tonga",r:"Oceanien"}
   ];
 
   var REGIONS = ["Alle", "Europa", "Asien", "Afrika", "Amerika", "Oceanien"];
 
   // ---- Expert level: territories and remaining states (names: Unicode CLDR da) ----
   var EXTRA = [
-    {c:"bj",n:"Benin",r:"Afrika"},
-    {c:"bf",n:"Burkina Faso",r:"Afrika"},
-    {c:"bi",n:"Burundi",r:"Afrika"},
-    {c:"km",n:"Comorerne",r:"Afrika"},
-    {c:"cg",n:"Congo-Brazzaville",r:"Afrika"},
-    {c:"cd",n:"Congo-Kinshasa",r:"Afrika"},
-    {c:"cf",n:"Den Centralafrikanske Republik",r:"Afrika"},
-    {c:"io",n:"Det Britiske Territorium i Det Indiske Ocean",r:"Afrika"},
-    {c:"dj",n:"Djibouti",r:"Afrika"},
-    {c:"er",n:"Eritrea",r:"Afrika"},
-    {c:"sz",n:"Eswatini",r:"Afrika"},
-    {c:"ga",n:"Gabon",r:"Afrika"},
-    {c:"gm",n:"Gambia",r:"Afrika"},
-    {c:"gn",n:"Guinea",r:"Afrika"},
-    {c:"gw",n:"Guinea-Bissau",r:"Afrika"},
-    {c:"cv",n:"Kap Verde",r:"Afrika"},
-    {c:"ls",n:"Lesotho",r:"Afrika"},
-    {c:"lr",n:"Liberia",r:"Afrika"},
-    {c:"mw",n:"Malawi",r:"Afrika"},
-    {c:"mr",n:"Mauretanien",r:"Afrika"},
-    {c:"mu",n:"Mauritius",r:"Afrika"},
-    {c:"ne",n:"Niger",r:"Afrika"},
-    {c:"sc",n:"Seychellerne",r:"Afrika"},
-    {c:"sl",n:"Sierra Leone",r:"Afrika"},
-    {c:"so",n:"Somalia",r:"Afrika"},
-    {c:"ss",n:"Sydsudan",r:"Afrika"},
-    {c:"st",n:"São Tomé og Príncipe",r:"Afrika"},
-    {c:"td",n:"Tchad",r:"Afrika"},
-    {c:"tg",n:"Togo",r:"Afrika"},
-    {c:"eh",n:"Vestsahara",r:"Afrika"},
-    {c:"gq",n:"Ækvatorialguinea",r:"Afrika"},
-    {c:"ai",n:"Anguilla",r:"Amerika"},
-    {c:"ag",n:"Antigua og Barbuda",r:"Amerika"},
-    {c:"aw",n:"Aruba",r:"Amerika"},
-    {c:"bs",n:"Bahamas",r:"Amerika"},
-    {c:"bb",n:"Barbados",r:"Amerika"},
-    {c:"bz",n:"Belize",r:"Amerika"},
-    {c:"bm",n:"Bermuda",r:"Amerika"},
-    {c:"ky",n:"Caymanøerne",r:"Amerika"},
-    {c:"cw",n:"Curaçao",r:"Amerika"},
-    {c:"vi",n:"De Amerikanske Jomfruøer",r:"Amerika"},
-    {c:"vg",n:"De Britiske Jomfruøer",r:"Amerika"},
-    {c:"dm",n:"Dominica",r:"Amerika"},
-    {c:"sv",n:"El Salvador",r:"Amerika"},
-    {c:"fk",n:"Falklandsøerne",r:"Amerika"},
-    {c:"gd",n:"Grenada",r:"Amerika"},
-    {c:"gl",n:"Grønland",r:"Amerika"},
-    {c:"gy",n:"Guyana",r:"Amerika"},
-    {c:"ms",n:"Montserrat",r:"Amerika"},
-    {c:"pr",n:"Puerto Rico",r:"Amerika"},
-    {c:"kn",n:"Saint Kitts og Nevis",r:"Amerika"},
-    {c:"lc",n:"Saint Lucia",r:"Amerika"},
-    {c:"vc",n:"Saint Vincent og Grenadinerne",r:"Amerika"},
-    {c:"sx",n:"Sint Maarten",r:"Amerika"},
-    {c:"sr",n:"Surinam",r:"Amerika"},
-    {c:"tt",n:"Trinidad og Tobago",r:"Amerika"},
-    {c:"tc",n:"Turks- og Caicosøerne",r:"Amerika"},
-    {c:"aq",n:"Antarktis",r:"Antarktis"},
-    {c:"tf",n:"De Franske Besiddelser i Det Sydlige Indiske Ocean og Antarktis",r:"Antarktis"},
-    {c:"gs",n:"South Georgia og De Sydlige Sandwichøer",r:"Antarktis"},
-    {c:"bh",n:"Bahrain",r:"Asien"},
-    {c:"bt",n:"Bhutan",r:"Asien"},
-    {c:"bn",n:"Brunei",r:"Asien"},
-    {c:"hk",n:"Hongkong",r:"Asien"},
-    {c:"kg",n:"Kirgisistan",r:"Asien"},
-    {c:"mo",n:"Macao",r:"Asien"},
-    {c:"mv",n:"Maldiverne",r:"Asien"},
-    {c:"ps",n:"Palæstina",r:"Asien"},
-    {c:"tj",n:"Tadsjikistan",r:"Asien"},
-    {c:"tw",n:"Taiwan",r:"Asien"},
-    {c:"tl",n:"Timor-Leste",r:"Asien"},
-    {c:"tm",n:"Turkmenistan",r:"Asien"},
-    {c:"ad",n:"Andorra",r:"Europa"},
-    {c:"fo",n:"Færøerne",r:"Europa"},
-    {c:"gi",n:"Gibraltar",r:"Europa"},
-    {c:"gg",n:"Guernsey",r:"Europa"},
-    {c:"im",n:"Isle of Man",r:"Europa"},
-    {c:"je",n:"Jersey",r:"Europa"},
-    {c:"xk",n:"Kosovo",r:"Europa"},
-    {c:"li",n:"Liechtenstein",r:"Europa"},
-    {c:"mc",n:"Monaco",r:"Europa"},
-    {c:"sm",n:"San Marino",r:"Europa"},
-    {c:"va",n:"Vatikanstaten",r:"Europa"},
-    {c:"ax",n:"Åland",r:"Europa"},
-    {c:"as",n:"Amerikansk Samoa",r:"Oceanien"},
-    {c:"cc",n:"Cocosøerne",r:"Oceanien"},
-    {c:"ck",n:"Cookøerne",r:"Oceanien"},
-    {c:"pf",n:"Fransk Polynesien",r:"Oceanien"},
-    {c:"gu",n:"Guam",r:"Oceanien"},
-    {c:"cx",n:"Juleøen",r:"Oceanien"},
-    {c:"ki",n:"Kiribati",r:"Oceanien"},
-    {c:"mh",n:"Marshalløerne",r:"Oceanien"},
-    {c:"fm",n:"Mikronesien",r:"Oceanien"},
-    {c:"nr",n:"Nauru",r:"Oceanien"},
-    {c:"nu",n:"Niue",r:"Oceanien"},
-    {c:"mp",n:"Nordmarianerne",r:"Oceanien"},
-    {c:"nf",n:"Norfolk Island",r:"Oceanien"},
-    {c:"pw",n:"Palau",r:"Oceanien"},
-    {c:"pn",n:"Pitcairn",r:"Oceanien"},
-    {c:"sb",n:"Salomonøerne",r:"Oceanien"},
-    {c:"tk",n:"Tokelau",r:"Oceanien"},
-    {c:"tv",n:"Tuvalu",r:"Oceanien"},
-    {c:"vu",n:"Vanuatu",r:"Oceanien"},
-    {c:"wf",n:"Wallis og Futuna",r:"Oceanien"}
+    {c:"bj",n:"Benin",e:"Benin",r:"Afrika"},
+    {c:"bf",n:"Burkina Faso",e:"Burkina Faso",r:"Afrika"},
+    {c:"bi",n:"Burundi",e:"Burundi",r:"Afrika"},
+    {c:"km",n:"Comorerne",e:"Comoros",r:"Afrika"},
+    {c:"cg",n:"Congo-Brazzaville",e:"Republic of the Congo",r:"Afrika"},
+    {c:"cd",n:"Congo-Kinshasa",e:"DR Congo",r:"Afrika"},
+    {c:"cf",n:"Den Centralafrikanske Republik",e:"Central African Republic",r:"Afrika"},
+    {c:"io",n:"Det Britiske Territorium i Det Indiske Ocean",e:"British Indian Ocean Territory",r:"Afrika"},
+    {c:"dj",n:"Djibouti",e:"Djibouti",r:"Afrika"},
+    {c:"er",n:"Eritrea",e:"Eritrea",r:"Afrika"},
+    {c:"sz",n:"Eswatini",e:"Eswatini",r:"Afrika"},
+    {c:"ga",n:"Gabon",e:"Gabon",r:"Afrika"},
+    {c:"gm",n:"Gambia",e:"Gambia",r:"Afrika"},
+    {c:"gn",n:"Guinea",e:"Guinea",r:"Afrika"},
+    {c:"gw",n:"Guinea-Bissau",e:"Guinea-Bissau",r:"Afrika"},
+    {c:"cv",n:"Kap Verde",e:"Cape Verde",r:"Afrika"},
+    {c:"ls",n:"Lesotho",e:"Lesotho",r:"Afrika"},
+    {c:"lr",n:"Liberia",e:"Liberia",r:"Afrika"},
+    {c:"mw",n:"Malawi",e:"Malawi",r:"Afrika"},
+    {c:"mr",n:"Mauretanien",e:"Mauritania",r:"Afrika"},
+    {c:"mu",n:"Mauritius",e:"Mauritius",r:"Afrika"},
+    {c:"ne",n:"Niger",e:"Niger",r:"Afrika"},
+    {c:"sc",n:"Seychellerne",e:"Seychelles",r:"Afrika"},
+    {c:"sl",n:"Sierra Leone",e:"Sierra Leone",r:"Afrika"},
+    {c:"so",n:"Somalia",e:"Somalia",r:"Afrika"},
+    {c:"ss",n:"Sydsudan",e:"South Sudan",r:"Afrika"},
+    {c:"st",n:"São Tomé og Príncipe",e:"São Tomé and Príncipe",r:"Afrika"},
+    {c:"td",n:"Tchad",e:"Chad",r:"Afrika"},
+    {c:"tg",n:"Togo",e:"Togo",r:"Afrika"},
+    {c:"eh",n:"Vestsahara",e:"Western Sahara",r:"Afrika"},
+    {c:"gq",n:"Ækvatorialguinea",e:"Equatorial Guinea",r:"Afrika"},
+    {c:"ai",n:"Anguilla",e:"Anguilla",r:"Amerika"},
+    {c:"ag",n:"Antigua og Barbuda",e:"Antigua and Barbuda",r:"Amerika"},
+    {c:"aw",n:"Aruba",e:"Aruba",r:"Amerika"},
+    {c:"bs",n:"Bahamas",e:"Bahamas",r:"Amerika"},
+    {c:"bb",n:"Barbados",e:"Barbados",r:"Amerika"},
+    {c:"bz",n:"Belize",e:"Belize",r:"Amerika"},
+    {c:"bm",n:"Bermuda",e:"Bermuda",r:"Amerika"},
+    {c:"ky",n:"Caymanøerne",e:"Cayman Islands",r:"Amerika"},
+    {c:"cw",n:"Curaçao",e:"Curaçao",r:"Amerika"},
+    {c:"vi",n:"De Amerikanske Jomfruøer",e:"U.S. Virgin Islands",r:"Amerika"},
+    {c:"vg",n:"De Britiske Jomfruøer",e:"British Virgin Islands",r:"Amerika"},
+    {c:"dm",n:"Dominica",e:"Dominica",r:"Amerika"},
+    {c:"sv",n:"El Salvador",e:"El Salvador",r:"Amerika"},
+    {c:"fk",n:"Falklandsøerne",e:"Falkland Islands",r:"Amerika"},
+    {c:"gd",n:"Grenada",e:"Grenada",r:"Amerika"},
+    {c:"gl",n:"Grønland",e:"Greenland",r:"Amerika"},
+    {c:"gy",n:"Guyana",e:"Guyana",r:"Amerika"},
+    {c:"ms",n:"Montserrat",e:"Montserrat",r:"Amerika"},
+    {c:"pr",n:"Puerto Rico",e:"Puerto Rico",r:"Amerika"},
+    {c:"kn",n:"Saint Kitts og Nevis",e:"Saint Kitts and Nevis",r:"Amerika"},
+    {c:"lc",n:"Saint Lucia",e:"Saint Lucia",r:"Amerika"},
+    {c:"vc",n:"Saint Vincent og Grenadinerne",e:"Saint Vincent and the Grenadines",r:"Amerika"},
+    {c:"sx",n:"Sint Maarten",e:"Sint Maarten",r:"Amerika"},
+    {c:"sr",n:"Surinam",e:"Suriname",r:"Amerika"},
+    {c:"tt",n:"Trinidad og Tobago",e:"Trinidad and Tobago",r:"Amerika"},
+    {c:"tc",n:"Turks- og Caicosøerne",e:"Turks and Caicos Islands",r:"Amerika"},
+    {c:"aq",n:"Antarktis",e:"Antarctica",r:"Antarktis"},
+    {c:"tf",n:"De Franske Besiddelser i Det Sydlige Indiske Ocean og Antarktis",e:"French Southern and Antarctic Lands",r:"Antarktis"},
+    {c:"gs",n:"South Georgia og De Sydlige Sandwichøer",e:"South Georgia",r:"Antarktis"},
+    {c:"bh",n:"Bahrain",e:"Bahrain",r:"Asien"},
+    {c:"bt",n:"Bhutan",e:"Bhutan",r:"Asien"},
+    {c:"bn",n:"Brunei",e:"Brunei",r:"Asien"},
+    {c:"hk",n:"Hongkong",e:"Hong Kong",r:"Asien"},
+    {c:"kg",n:"Kirgisistan",e:"Kyrgyzstan",r:"Asien"},
+    {c:"mo",n:"Macao",e:"Macau",r:"Asien"},
+    {c:"mv",n:"Maldiverne",e:"Maldives",r:"Asien"},
+    {c:"ps",n:"Palæstina",e:"Palestine",r:"Asien"},
+    {c:"tj",n:"Tadsjikistan",e:"Tajikistan",r:"Asien"},
+    {c:"tw",n:"Taiwan",e:"Taiwan",r:"Asien"},
+    {c:"tl",n:"Timor-Leste",e:"Timor-Leste",r:"Asien"},
+    {c:"tm",n:"Turkmenistan",e:"Turkmenistan",r:"Asien"},
+    {c:"ad",n:"Andorra",e:"Andorra",r:"Europa"},
+    {c:"fo",n:"Færøerne",e:"Faroe Islands",r:"Europa"},
+    {c:"gi",n:"Gibraltar",e:"Gibraltar",r:"Europa"},
+    {c:"gg",n:"Guernsey",e:"Guernsey",r:"Europa"},
+    {c:"im",n:"Isle of Man",e:"Isle of Man",r:"Europa"},
+    {c:"je",n:"Jersey",e:"Jersey",r:"Europa"},
+    {c:"xk",n:"Kosovo",e:"Kosovo",r:"Europa"},
+    {c:"li",n:"Liechtenstein",e:"Liechtenstein",r:"Europa"},
+    {c:"mc",n:"Monaco",e:"Monaco",r:"Europa"},
+    {c:"sm",n:"San Marino",e:"San Marino",r:"Europa"},
+    {c:"va",n:"Vatikanstaten",e:"Vatican City",r:"Europa"},
+    {c:"ax",n:"Åland",e:"Åland Islands",r:"Europa"},
+    {c:"as",n:"Amerikansk Samoa",e:"American Samoa",r:"Oceanien"},
+    {c:"cc",n:"Cocosøerne",e:"Cocos (Keeling) Islands",r:"Oceanien"},
+    {c:"ck",n:"Cookøerne",e:"Cook Islands",r:"Oceanien"},
+    {c:"pf",n:"Fransk Polynesien",e:"French Polynesia",r:"Oceanien"},
+    {c:"gu",n:"Guam",e:"Guam",r:"Oceanien"},
+    {c:"cx",n:"Juleøen",e:"Christmas Island",r:"Oceanien"},
+    {c:"ki",n:"Kiribati",e:"Kiribati",r:"Oceanien"},
+    {c:"mh",n:"Marshalløerne",e:"Marshall Islands",r:"Oceanien"},
+    {c:"fm",n:"Mikronesien",e:"Micronesia",r:"Oceanien"},
+    {c:"nr",n:"Nauru",e:"Nauru",r:"Oceanien"},
+    {c:"nu",n:"Niue",e:"Niue",r:"Oceanien"},
+    {c:"mp",n:"Nordmarianerne",e:"Northern Mariana Islands",r:"Oceanien"},
+    {c:"nf",n:"Norfolk Island",e:"Norfolk Island",r:"Oceanien"},
+    {c:"pw",n:"Palau",e:"Palau",r:"Oceanien"},
+    {c:"pn",n:"Pitcairn",e:"Pitcairn Islands",r:"Oceanien"},
+    {c:"sb",n:"Salomonøerne",e:"Solomon Islands",r:"Oceanien"},
+    {c:"tk",n:"Tokelau",e:"Tokelau",r:"Oceanien"},
+    {c:"tv",n:"Tuvalu",e:"Tuvalu",r:"Oceanien"},
+    {c:"vu",n:"Vanuatu",e:"Vanuatu",r:"Oceanien"},
+    {c:"wf",n:"Wallis og Futuna",e:"Wallis and Futuna",r:"Oceanien"}
   ];
 
   function activeData() {
@@ -894,13 +899,100 @@
     answered: false,
     fifty: FIFTY_PER_QUIZ,
     results: [],       // "ok" | "no" per answered question
-    wrong: []          // { q, saidName } per mistake
+    wrong: [],         // { q, said } per mistake
+    opts: null,        // cached options for the current question
+    optsIdx: -1,       // which question index opts belongs to
+    lastSel: null      // code the player chose (for repainting)
   };
 
   // Best result this session, kept across rounds (in memory only)
   var sessionBest = null; // { pct, score, total }
 
   var app = document.getElementById("app");
+
+  // ---- Language (DA/EN) ----
+  var STR = {
+    da: {
+      eyebrow: "Verdens flag",
+      lede: "Test hvor mange flag du kan genkende. Ekspertniveauet tilføjer territorier og de sidste stater i verden.",
+      all: "Alle", modeName: "Gæt landet", modeFlag: "Gæt flaget",
+      level: "Niveau", levelStd: "Standard", levelExp: "Ekspert · alle flag",
+      region: "Region", numQuestions: "Antal spørgsmål", gameType: "Spiltype",
+      startBtn: "Start quiz", sessionBest: "Bedste runde i denne session:",
+      practicePrefix: "Repetition · ", whichCountry: "Hvilket land?", findFlag: "Find flaget",
+      specimen: "Specimen №", unidentified: " · uidentificeret",
+      pickFlagBelow: "Vælg det rigtige flag nedenfor",
+      question: "Spørgsmål", correctWord: "rigtige", streak: "Stime", left: "tilbage",
+      kbdHint: "Tast 1–4 · Enter for næste", seeResult: "Se resultat", next: "Næste",
+      right: "Rigtigt", rightAnswer: "Rigtige svar: ",
+      result: "Resultat", outOf: "ud af", longestStreak: "længste stime",
+      newBest: "Ny bedste runde i denne session", missed: "Dem du missede",
+      yourAnswer: "dit svar: ", practice1: "Øv dine ", practice2: " fejl",
+      playAgain: "Spil igen", changeSettings: "Skift indstillinger",
+      remark100: "Alle rigtige. Fejlfrit.", remark90: "Imponerende geografisk niveau.",
+      remark70: "Flot klaret.", remark50: "Godt forsøg, halvvejs og mere til.",
+      remark0: "Der er stadig flag at øve sig på."
+    },
+    en: {
+      eyebrow: "Flags of the world",
+      lede: "Test how many flags you can recognize. Expert level adds territories and the rest of the world's states.",
+      all: "All", modeName: "Guess the country", modeFlag: "Guess the flag",
+      level: "Level", levelStd: "Standard", levelExp: "Expert · all flags",
+      region: "Region", numQuestions: "Number of questions", gameType: "Game type",
+      startBtn: "Start quiz", sessionBest: "Best round this session:",
+      practicePrefix: "Practice · ", whichCountry: "Which country?", findFlag: "Find the flag",
+      specimen: "Specimen №", unidentified: " · unidentified",
+      pickFlagBelow: "Pick the correct flag below",
+      question: "Question", correctWord: "correct", streak: "Streak", left: "left",
+      kbdHint: "Keys 1–4 · Enter for next", seeResult: "See result", next: "Next",
+      right: "Correct", rightAnswer: "Correct answer: ",
+      result: "Results", outOf: "out of", longestStreak: "longest streak",
+      newBest: "New best round this session", missed: "The ones you missed",
+      yourAnswer: "your answer: ", practice1: "Practice your ", practice2: " mistakes",
+      playAgain: "Play again", changeSettings: "Change settings",
+      remark100: "All correct. Flawless.", remark90: "Impressive geography knowledge.",
+      remark70: "Well done.", remark50: "Good effort, more than halfway.",
+      remark0: "There are still flags to practice."
+    }
+  };
+  var REGION_EN = { "Alle": "All", "Europa": "Europe", "Asien": "Asia", "Afrika": "Africa", "Amerika": "America", "Oceanien": "Oceania", "Antarktis": "Antarctica" };
+  function loadLang() {
+    try {
+      var s = localStorage.getItem("flagquiz-lang");
+      if (s === "da" || s === "en") return s;
+    } catch (e) {}
+    var nav = (navigator.language || "").toLowerCase();
+    return nav.indexOf("da") === 0 ? "da" : "en";
+  }
+  var lang = loadLang();
+  function t(k) { return STR[lang][k]; }
+  function nm(x) { return (lang === "en" && x.e) ? x.e : x.n; }
+  function regionLabel(r) { return lang === "en" ? (REGION_EN[r] || r) : r; }
+  function setLang(l) {
+    if (l === lang) return;
+    lang = l;
+    try { localStorage.setItem("flagquiz-lang", l); } catch (e) {}
+    document.documentElement.lang = l;
+    renderLangToggle();
+    if (state.screen === "start") renderStart();
+    else if (state.screen === "question") renderQuestion();
+    else renderResults();
+  }
+  function renderLangToggle() {
+    var el = document.getElementById("langToggle");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "langToggle";
+      document.body.appendChild(el);
+      el.addEventListener("click", function (e) {
+        var b = e.target.closest("button[data-lang]");
+        if (b) setLang(b.getAttribute("data-lang"));
+      });
+    }
+    el.innerHTML = ["da", "en"].map(function (l) {
+      return '<button data-lang="' + l + '" aria-pressed="' + (l === lang) + '">' + l.toUpperCase() + '</button>';
+    }).join("");
+  }
 
   // ---- Helpers ----
   function codeToEmoji(code) {
@@ -993,6 +1085,7 @@
     state.fifty = FIFTY_PER_QUIZ;
     state.results = [];
     state.wrong = [];
+    state.optsIdx = -1;
     renderQuestion();
   }
 
@@ -1000,46 +1093,46 @@
   function renderStart() {
     state.screen = "start";
     var lengthChoices = [
-      { label: "10", val: 10 }, { label: "20", val: 20 }, { label: "Alle", val: "all" }
+      { label: "10", val: 10 }, { label: "20", val: 20 }, { label: t("all"), val: "all" }
     ];
     var modeChoices = [
-      { label: "Gæt landet", val: "name" }, { label: "Gæt flaget", val: "flag" }
+      { label: t("modeName"), val: "name" }, { label: t("modeFlag"), val: "flag" }
     ];
 
     var html = '' +
-      '<p class="eyebrow">Verdens flag</p>' +
+      '<p class="eyebrow">' + t("eyebrow") + '</p>' +
       '<h1 class="title">Flagquiz</h1>' +
-      '<p class="lede">Test hvor mange flag du kan genkende. Ekspertniveauet tilføjer territorier og de sidste stater i verden.</p>' +
+      '<p class="lede">' + t("lede") + '</p>' +
 
-      '<div class="field"><p class="field-label">Niveau</p><div class="chips" data-group="level">' +
-        [{label:"Standard",val:"standard"},{label:"Ekspert · alle flag",val:"expert"}].map(function (o) {
+      '<div class="field"><p class="field-label">' + t("level") + '</p><div class="chips" data-group="level">' +
+        [{label:t("levelStd"),val:"standard"},{label:t("levelExp"),val:"expert"}].map(function (o) {
           return '<button class="chip" data-val="' + o.val + '" aria-pressed="' + (state.level === o.val) + '">' + o.label + '</button>';
         }).join("") +
       '</div></div>' +
 
-      '<div class="field"><p class="field-label">Region</p><div class="chips" data-group="region">' +
+      '<div class="field"><p class="field-label">' + t("region") + '</p><div class="chips" data-group="region">' +
         REGIONS.map(function (r) {
           var count = poolFor(r).length;
           return '<button class="chip" data-val="' + r + '" aria-pressed="' + (state.region === r) + '">' +
-            r + '<span class="count">' + count + '</span></button>';
+            regionLabel(r) + '<span class="count">' + count + '</span></button>';
         }).join("") +
       '</div></div>' +
 
-      '<div class="field"><p class="field-label">Antal spørgsmål</p><div class="chips" data-group="length">' +
+      '<div class="field"><p class="field-label">' + t("numQuestions") + '</p><div class="chips" data-group="length">' +
         lengthChoices.map(function (o) {
           return '<button class="chip" data-val="' + o.val + '" aria-pressed="' + (String(state.length) === String(o.val)) + '">' + o.label + '</button>';
         }).join("") +
       '</div></div>' +
 
-      '<div class="field"><p class="field-label">Spiltype</p><div class="chips" data-group="mode">' +
+      '<div class="field"><p class="field-label">' + t("gameType") + '</p><div class="chips" data-group="mode">' +
         modeChoices.map(function (o) {
           return '<button class="chip" data-val="' + o.val + '" aria-pressed="' + (state.mode === o.val) + '">' + o.label + '</button>';
         }).join("") +
       '</div></div>' +
 
-      '<button class="btn-primary" id="startBtn">Start quiz</button>' +
+      '<button class="btn-primary" id="startBtn">' + t("startBtn") + '</button>' +
       (sessionBest
-        ? '<p class="session-best">Bedste runde i denne session: <b>' + sessionBest.pct + '%</b> (' +
+        ? '<p class="session-best">' + t("sessionBest") + ' <b>' + sessionBest.pct + '%</b> (' +
           sessionBest.score + '/' + sessionBest.total + ')</p>'
         : '');
 
@@ -1078,32 +1171,37 @@
 
   function renderQuestion() {
     state.screen = "question";
-    state.answered = false;
     var total = state.queue.length;
     var q = state.queue[state.idx];
-    var options = pickOptions(q);
+    if (state.optsIdx !== state.idx) {
+      state.opts = pickOptions(q);
+      state.optsIdx = state.idx;
+      state.answered = false;
+      state.lastSel = null;
+    }
+    var options = state.opts;
     var pct = total ? Math.round((state.idx / total) * 100) : 0;
 
     var stageHtml, optionsHtml, promptText;
     var keys = ["1", "2", "3", "4"];
 
     if (state.mode === "name") {
-      promptText = state.practice ? "Repetition · Hvilket land?" : "Hvilket land?";
+      promptText = (state.practice ? t("practicePrefix") : "") + t("whichCountry");
       stageHtml =
         '<div class="flag-stage">' + makeFlagImg(q.c, "flag-main", 320, "big") + '</div>' +
-        '<div class="caption" id="caption">Specimen №' + (state.idx + 1) + ' · uidentificeret</div>';
+        '<div class="caption" id="caption">' + t("specimen") + (state.idx + 1) + t("unidentified") + '</div>';
       optionsHtml =
         '<div class="options" id="options">' +
           options.map(function (o, i) {
             return '<button class="opt" data-code="' + o.c + '">' +
-              '<span class="key">' + keys[i] + '</span>' + escapeHtml(o.n) + '</button>';
+              '<span class="key">' + keys[i] + '</span>' + escapeHtml(nm(o)) + '</button>';
           }).join("") +
         '</div>';
     } else {
-      promptText = state.practice ? "Repetition · Find flaget" : "Find flaget";
+      promptText = (state.practice ? t("practicePrefix") : "") + t("findFlag");
       stageHtml =
-        '<div class="country-prompt">' + escapeHtml(q.n) + '</div>' +
-        '<div class="caption" id="caption">Vælg det rigtige flag nedenfor</div>';
+        '<div class="country-prompt">' + escapeHtml(nm(q)) + '</div>' +
+        '<div class="caption" id="caption">' + t("pickFlagBelow") + '</div>';
       optionsHtml =
         '<div class="options flags" id="options">' +
           options.map(function (o, i) {
@@ -1116,9 +1214,9 @@
 
     app.innerHTML = '' +
       '<div class="topbar">' +
-        '<span>Spørgsmål ' + (state.idx + 1) + ' / ' + total + '</span>' +
-        '<span><span class="score">' + state.score + ' rigtige</span>' +
-          (state.streak > 1 ? '  ·  <span class="streak">Stime ' + state.streak + '</span>' : '') +
+        '<span>' + t("question") + ' ' + (state.idx + 1) + ' / ' + total + '</span>' +
+        '<span><span class="score">' + state.score + ' ' + t("correctWord") + '</span>' +
+          (state.streak > 1 ? '  ·  <span class="streak">' + t("streak") + ' ' + state.streak + '</span>' : '') +
         '</span>' +
       '</div>' +
       '<div class="progress"><span style="width:' + pct + '%"></span></div>' +
@@ -1131,12 +1229,12 @@
       '</div>' +
       optionsHtml +
       '<div class="q-tools">' +
-        '<button class="btn-fifty" id="fiftyBtn"' + (state.fifty ? '' : ' disabled') + '>50/50 · ' + state.fifty + ' tilbage</button>' +
-        '<span class="kbd-hint">Tast 1–4 · Enter for næste</span>' +
+        '<button class="btn-fifty" id="fiftyBtn"' + (state.fifty ? '' : ' disabled') + '>50/50 · ' + state.fifty + ' ' + t("left") + '</button>' +
+        '<span class="kbd-hint">' + t("kbdHint") + '</span>' +
       '</div>' +
       '<div class="feedback" id="feedback" aria-live="polite"></div>' +
       '<button class="btn-primary" id="nextBtn" style="display:none">' +
-        (state.idx === total - 1 ? "Se resultat" : "Næste") +
+        (state.idx === total - 1 ? t("seeResult") : t("next")) +
       '</button>';
 
     wireFlagFallbacks(app);
@@ -1151,6 +1249,8 @@
     document.getElementById("fiftyBtn").addEventListener("click", function () {
       useFifty(q);
     });
+
+    if (state.answered) paintAnswer(q);
 
     preloadNext();
   }
@@ -1170,7 +1270,31 @@
     });
     var fBtn = document.getElementById("fiftyBtn");
     fBtn.disabled = true;
-    fBtn.textContent = "50/50 · " + state.fifty + " tilbage";
+    fBtn.textContent = "50/50 · " + state.fifty + " " + t("left");
+  }
+
+  function paintAnswer(q) {
+    var selectedCode = state.lastSel;
+    var correct = selectedCode === q.c;
+    app.querySelectorAll(".opt").forEach(function (b) {
+      b.disabled = true;
+      var code = b.getAttribute("data-code");
+      if (code === q.c) { b.classList.remove("dimmed"); b.classList.add("correct"); }
+      else if (code === selectedCode) b.classList.add("wrong");
+    });
+    var fb = document.getElementById("feedback");
+    fb.className = "feedback " + (correct ? "ok" : "no");
+    fb.textContent = correct ? t("right") : (t("rightAnswer") + nm(q));
+    var fBtn = document.getElementById("fiftyBtn");
+    if (fBtn) fBtn.disabled = true;
+    var cap = document.getElementById("caption");
+    if (cap && state.mode === "name") {
+      cap.innerHTML = '<span class="reveal-name">' + escapeHtml(nm(q)) + '</span> · ' + q.c.toUpperCase() + ' · ISO 3166-1';
+    }
+    var next = document.getElementById("nextBtn");
+    next.style.display = "block";
+    next.onclick = goNext;
+    next.focus();
   }
 
   function handleAnswer(selectedCode, q) {
@@ -1178,44 +1302,18 @@
     state.answered = true;
 
     var correct = selectedCode === q.c;
-    var optButtons = app.querySelectorAll(".opt");
-
-    optButtons.forEach(function (b) {
-      b.disabled = true;
-      var code = b.getAttribute("data-code");
-      if (code === q.c) { b.classList.remove("dimmed"); b.classList.add("correct"); }
-      else if (code === selectedCode) b.classList.add("wrong");
-    });
-
-    var fb = document.getElementById("feedback");
     if (correct) {
       state.score++;
       state.streak++;
       if (state.streak > state.bestStreak) state.bestStreak = state.streak;
       state.results.push("ok");
-      fb.className = "feedback ok";
-      fb.textContent = "Rigtigt";
     } else {
       state.streak = 0;
-      var said = byCode(selectedCode);
-      state.wrong.push({ q: q, saidName: said ? said.n : "" });
+      state.wrong.push({ q: q, said: byCode(selectedCode) });
       state.results.push("no");
-      fb.className = "feedback no";
-      fb.textContent = "Rigtige svar: " + q.n;
     }
-
-    var fBtn = document.getElementById("fiftyBtn");
-    if (fBtn) fBtn.disabled = true;
-
-    var cap = document.getElementById("caption");
-    if (cap && state.mode === "name") {
-      cap.innerHTML = '<span class="reveal-name">' + escapeHtml(q.n) + '</span> · ' + q.c.toUpperCase() + ' · ISO 3166-1';
-    }
-
-    var next = document.getElementById("nextBtn");
-    next.style.display = "block";
-    next.focus();
-    next.addEventListener("click", goNext);
+    state.lastSel = selectedCode;
+    paintAnswer(q);
   }
 
   function goNext() {
@@ -1238,21 +1336,21 @@
     }
 
     var remark;
-    if (pct === 100) remark = "Alle rigtige. Fejlfrit.";
-    else if (pct >= 90) remark = "Imponerende geografisk niveau.";
-    else if (pct >= 70) remark = "Flot klaret.";
-    else if (pct >= 50) remark = "Godt forsøg, halvvejs og mere til.";
-    else remark = "Der er stadig flag at øve sig på.";
+    if (pct === 100) remark = t("remark100");
+    else if (pct >= 90) remark = t("remark90");
+    else if (pct >= 70) remark = t("remark70");
+    else if (pct >= 50) remark = t("remark50");
+    else remark = t("remark0");
 
     var reviewHtml = "";
     if (state.wrong.length) {
       reviewHtml =
-        '<p class="review-head">Dem du missede (' + state.wrong.length + ')</p>' +
+        '<p class="review-head">' + t("missed") + ' (' + state.wrong.length + ')</p>' +
         state.wrong.map(function (w) {
           return '<div class="review-item">' +
             makeFlagImg(w.q.c, "", 80, "small") +
-            '<span>' + escapeHtml(w.q.n) + '</span>' +
-            (w.saidName ? '<span class="you-said">dit svar: ' + escapeHtml(w.saidName) + '</span>' : '') +
+            '<span>' + escapeHtml(nm(w.q)) + '</span>' +
+            (w.said ? '<span class="you-said">' + t("yourAnswer") + escapeHtml(nm(w.said)) + '</span>' : '') +
             '</div>';
         }).join("");
     }
@@ -1260,19 +1358,19 @@
     var wrongCountries = state.wrong.map(function (w) { return w.q; });
 
     app.innerHTML = '' +
-      '<p class="eyebrow">' + (state.practice ? 'Repetition · Resultat' : 'Resultat') + '</p>' +
+      '<p class="eyebrow">' + (state.practice ? t("practicePrefix") + t("result") : t("result")) + '</p>' +
       '<div class="result-pct">' + pct + '%</div>' +
-      '<p class="result-sub">' + state.score + ' ud af ' + total + ' rigtige' +
-        (state.bestStreak > 1 ? '  ·  længste stime ' + state.bestStreak : '') + '</p>' +
+      '<p class="result-sub">' + state.score + ' ' + t("outOf") + ' ' + total + ' ' + t("correctWord") +
+        (state.bestStreak > 1 ? '  ·  ' + t("longestStreak") + ' ' + state.bestStreak : '') + '</p>' +
       '<p class="result-remark">' + remark + '</p>' +
-      (isNewBest && sessionBest ? '<p class="result-best">Ny bedste runde i denne session</p>' : '') +
+      (isNewBest && sessionBest ? '<p class="result-best">' + t("newBest") + '</p>' : '') +
       reviewHtml +
       (wrongCountries.length
-        ? '<button class="btn-primary" id="practiceBtn" style="margin-top:28px">Øv dine ' + wrongCountries.length + ' fejl</button>'
+        ? '<button class="btn-primary" id="practiceBtn" style="margin-top:28px">' + t("practice1") + wrongCountries.length + t("practice2") + '</button>'
         : '') +
       '<button class="' + (wrongCountries.length ? 'btn-ghost' : 'btn-primary') + '" id="againBtn"' +
-        (wrongCountries.length ? '' : ' style="margin-top:28px"') + '>Spil igen</button>' +
-      '<button class="btn-ghost" id="settingsBtn">Skift indstillinger</button>';
+        (wrongCountries.length ? '' : ' style="margin-top:28px"') + '>' + t("playAgain") + '</button>' +
+      '<button class="btn-ghost" id="settingsBtn">' + t("changeSettings") + '</button>';
 
     wireFlagFallbacks(app);
 
@@ -1310,6 +1408,8 @@
   });
 
   // ---- Boot ----
+  document.documentElement.lang = lang;
+  renderLangToggle();
   renderStart();
 })();
 </script>
